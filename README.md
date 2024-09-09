@@ -9,76 +9,37 @@
 - Supports HTTP/2
 
 ## Usage
-For run OpenVPN prepare 2 files
-- login/password file: auth
-- client VPN config: client.ovpn
+For run WireGuard prepare  file
+- wg.conf file
 
 
-### Example auth file
+### Example  wg.conf file
 ```
-login
-pasword
+[Interface]
+PrivateKey = AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+Address = 10.0.0.231/32
+DNS = 10.0.0.1
+
+[Peer]
+PublicKey = BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=
+PresharedKey = CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=
+AllowedIPs = 0.0.0.0/0
+Endpoint = 111.222.3333.4444:15288
+PersistentKeepalive = 25
 ```
 
-### Example  client.ovpn file
-```
-client
-dev tun
-reneg-sec 0
-persist-tun
-persist-key
-ping 5
-nobind
-allow-compression no
-remote-random
-remote-cert-tls server
-auth-nocache
-route-metric 1
-cipher AES-256-CBC
-auth sha512
-<ca>
------BEGIN CERTIFICATE-----
-.......................
-.......................
------END CERTIFICATE-----
------BEGIN CERTIFICATE-----
-.......................
-.......................
------END CERTIFICATE-----
-</ca>
-<cert>
-
------BEGIN CERTIFICATE-----
-.......................
-.......................
------END CERTIFICATE-----
-</cert>
-<key>
------BEGIN PRIVATE KEY-----
-.......................
-.......................
------END PRIVATE KEY-----
-
-</key>
-remote server.example.com
-proto udp
-
-port 1194
-```
 ### Exmaple compose.yaml file
 ```yaml
 services:
   proxy:
-    image: ghcr.io/rooty/proxy-vpn:latest
+    image: ghcr.io/rooty/proxy-vpn-wg:latest
     restart: always
     privileged: true
-    devices:
-      - /dev/net/tun
     dns:
       - 8.8.8.8
     volumes:
-        - '/path/to/file.ovpn':/etc/openvpn/client.ovpn:ro
-        - '/path/to/file.auth':/etc/openvpn/auth:ro
+        - /path/to/wg.conf:/etc/wireguard/wg0.conf:ro
+        - /path/to/file.auth:/etc/openvpn/auth:ro
     ports:
        - 127.0.0.1:8888:8888
     networks:
