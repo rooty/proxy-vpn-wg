@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM alpine:latest
 
-LABEL org.opencontainers.image.source="https://github.com/rooty/proxy-vpn"
-LABEL org.opencontainers.image.description="OpenVPN+Proxy"
+LABEL org.opencontainers.image.source="https://github.com/rooty/proxy-vpn-wg"
+LABEL org.opencontainers.image.description="WireGuard+Proxy"
 LABEL org.opencontainers.image.licenses=MIT
 
 # Install packages
