@@ -39,7 +39,6 @@ services:
       - 8.8.8.8
     volumes:
         - /path/to/wg.conf:/etc/wireguard/wg0.conf:ro
-        - /path/to/file.auth:/etc/openvpn/auth:ro
     ports:
        - 127.0.0.1:8888:8888
     networks:
