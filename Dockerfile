@@ -31,7 +31,8 @@ RUN apk --no-cache add \
     && apk del .gettext \
     && mv /tmp/envsubst /usr/local/bin/ \
 # Remove alpine cache \
-    && rm -rf /var/cache/apk/* \
+    && rm -rf /var/cache/apk/* 
+    # \
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user \
     #  && chown -R nobody.nobody /run 
 
